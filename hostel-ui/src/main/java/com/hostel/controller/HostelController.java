@@ -32,9 +32,9 @@ public class HostelController {
     private RestUtil restUtil;
     public static String detail = null;
     public static String delete = null;
-    public static String det=null;
-    public static String roomdel=null;
-    public static String getedit=null;
+    public static String det = null;
+    public static String roomdel = null;
+    public static String getedit = null;
     // public static String editdetails=null;
 
     private static final Logger LOGGER = LogManager.getLogger(HostelController.class);
@@ -121,7 +121,7 @@ public class HostelController {
 
     @PostMapping(value = "/edit/details/")
     public String edittenent(HttpSession session, String t_id, String t_name, String t_address, String t_phone,
-            String room_no, String t_profession) throws JsonProcessingException {    
+            String room_no, String t_profession) throws JsonProcessingException {
         try {
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("t_id", t_id);
@@ -184,15 +184,16 @@ public class HostelController {
             return response.toString();
         }
     }
+
     @GetMapping(value = "/viewall/tenent")
-    public String viewalltenent(HttpSession session)throws JsonProcessingException{
-        try{
+    public String viewalltenent(HttpSession session) throws JsonProcessingException {
+        try {
             Map<String, Object> params = new HashMap<String, Object>();
-            String get=restUtil.get("http://localhost:5000/getalltenent", params);
+            String get = restUtil.get("http://localhost:5000/getalltenent", params);
             System.out.println(get);
             return get.toString();
-        }catch(Exception ex){
-             LOGGER.error("get", ex);
+        } catch (Exception ex) {
+            LOGGER.error("get", ex);
             JSONObject response = new JSONObject();
             response.put("status", "failure");
             response.put("message", "Unable to post the data");
@@ -201,7 +202,6 @@ public class HostelController {
             return response.toString();
         }
     }
-
 
     @PostMapping(value = "/newroom")
     public String addroom(HttpSession session, String r_no, String r_sharing) throws JsonProcessingException {
@@ -230,7 +230,7 @@ public class HostelController {
         return new ModelAndView("room");
     }
 
-     @GetMapping(value = "/oneviewdetails/{id}")
+    @GetMapping(value = "/oneviewdetails/{id}")
     public static String oneview(@PathVariable("id") String id) {
         try {
             RestUtil restUtil = new RestUtil();
@@ -249,90 +249,93 @@ public class HostelController {
         }
     }
 
-    @DeleteMapping(value="/delete/roomdetails")
-    public String deleteroom(HttpSession session,String id){
-        try{
-            RestUtil restUtil=new RestUtil();
-            Map<String,Object>params=new HashMap<String,Object>();
+    @DeleteMapping(value = "/delete/roomdetails")
+    public String deleteroom(HttpSession session, String id) {
+        try {
+            RestUtil restUtil = new RestUtil();
+            Map<String, Object> params = new HashMap<String, Object>();
             // params.put("id",id);
             System.out.println(id);
             System.out.println(params);
-            roomdel=restUtil.delete("http://localhost:5000/deleteroom/"+id,params);
+            roomdel = restUtil.delete("http://localhost:5000/deleteroom/" + id, params);
             System.out.println(roomdel);
             return roomdel.toString();
-        }catch(Exception ex){
-            JSONObject response=new JSONObject();
-            response.put("status","failure");
+        } catch (Exception ex) {
+            JSONObject response = new JSONObject();
+            response.put("status", "failure");
             response.put("message", "unable to delete the room details");
-            response.put("data",JSONObject.NULL);
-
-            return response.toString();
-        }
-    }
-
-    @GetMapping(value ="/getedit/details/{getid}")
-    public String getiddetails(@PathVariable("getid") String getid){
-        try{
-            RestUtil restUtil=new RestUtil();
-            Map<String,Object>params=new HashMap<String,Object>();
-            getedit=restUtil.get("http://localhost:5000/getone/"+getid, params);
-            System.out.println(getedit);
-            return getedit.toString();
-        }catch(Exception ex){
-            LOGGER.error("getedit",ex);
-            JSONObject response=new JSONObject();
-            response.put("status","failure");
-            response.put("message","unable to get the details");
-            response.put("data",JSONObject.NULL);
-            return response.toString();
-        }
-    }
-
-    @PostMapping(value = "/edit/tenent/details")
-    public String editDetails(HttpSession session,Integer r_id,Integer r_no,Integer r_sharing)throws JsonProcessingException{
-        try{
-            RestUtil restUtil=new RestUtil();
-            Map<String,Object>params=new HashMap<String,Object>();
-            params.put("r_id", r_id);
-            params.put("r_no", r_no);
-            params.put("r_sharing",r_sharing);
-            String editdetails=restUtil.post("http://localhost:5000/editroom", params);
-           
-            return editdetails.toString();
-        }catch(Exception ex){
-           LOGGER.error("editdetails",ex);
-            JSONObject response=new JSONObject();
-            response.put("status","failure");
-            response.put("message","unable to edit the details");
-            response.put("data",JSONObject.NULL);
-            return response.toString(); 
-        }
-    }
-    @GetMapping(value = "/image")
-    public ModelAndView image() {
-        return new ModelAndView("image"
-        );
-    }
-    public static String getone=null;
-    @GetMapping(value ="/getoneid/{id}")
-    public static String getdetailsof(@PathVariable("id") String id){
-        try{
-            RestUtil restUtil=new RestUtil();
-            Map<String,Object> params=new HashMap<String,Object>();
-            getone=restUtil.get("http://localhost:5000/get/"+id,params);
-            return getone;
-        }catch(Exception ex){
-            LOGGER.error("this is the error",ex);
-            JSONObject response=new JSONObject();
-            response.put("status","failure");
-            response.put("message","unable to get the details");
             response.put("data", JSONObject.NULL);
 
             return response.toString();
         }
     }
 
-    public static String getTenentDetails(){
+    @GetMapping(value = "/getedit/details/{getid}")
+    public String getiddetails(@PathVariable("getid") String getid) {
+        try {
+            RestUtil restUtil = new RestUtil();
+            Map<String, Object> params = new HashMap<String, Object>();
+            getedit = restUtil.get("http://localhost:5000/getone/" + getid, params);
+            System.out.println(getedit);
+            return getedit.toString();
+        } catch (Exception ex) {
+            LOGGER.error("getedit", ex);
+            JSONObject response = new JSONObject();
+            response.put("status", "failure");
+            response.put("message", "unable to get the details");
+            response.put("data", JSONObject.NULL);
+            return response.toString();
+        }
+    }
+
+    @PostMapping(value = "/edit/tenent/details")
+    public String editDetails(HttpSession session, Integer r_id, Integer r_no, Integer r_sharing)
+            throws JsonProcessingException {
+        try {
+            RestUtil restUtil = new RestUtil();
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("r_id", r_id);
+            params.put("r_no", r_no);
+            params.put("r_sharing", r_sharing);
+            String editdetails = restUtil.post("http://localhost:5000/editroom", params);
+
+            return editdetails.toString();
+        } catch (Exception ex) {
+            LOGGER.error("editdetails", ex);
+            JSONObject response = new JSONObject();
+            response.put("status", "failure");
+            response.put("message", "unable to edit the details");
+            response.put("data", JSONObject.NULL);
+            return response.toString();
+        }
+    }
+
+    @GetMapping(value = "/image")
+    public ModelAndView image() {
+        return new ModelAndView("image");
+    }
+
+    public static String getone = null;
+
+    @GetMapping(value = "/getoneid/{id}")
+    public static String getdetailsof(@PathVariable("id") String id) {
+        try {
+            RestUtil restUtil = new RestUtil();
+            Map<String, Object> params = new HashMap<String, Object>();
+            getone = restUtil.get("http://localhost:5000/get/" + id, params);
+            return getone;
+        } catch (Exception ex) {
+            LOGGER.error("this is the error", ex);
+            JSONObject response = new JSONObject();
+            response.put("status", "failure");
+            response.put("message", "unable to get the details");
+            response.put("data", JSONObject.NULL);
+
+            return response.toString();
+        }
+    }
+
+    public static String getTenentDetails() {
         System.out.println(getone);
         return getone;
     }

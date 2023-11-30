@@ -9,32 +9,41 @@
         input {
             margin: 10px 0px 5px 0px;
         }
-        p{
+
+        p {
             margin: 10px 0px -7px 0px;
         }
-        #backbtn{
+
+        #backbtn {
             margin: 5px 0px 10px 0px;
         }
+
         body {
             background-image: url('/static/images/images.jpeg');
             background-size: cover;
         }
-        tr,th,td{
+
+        tr,
+        th,
+        td {
             border: 1px solid green;
             border-collapse: collapse;
             height: 35px;
             text-align: center;
         }
-        table{
+
+        table {
             height: 50%;
             width: 50%;
             border-collapse: collapse;
             margin: 30px auto;
         }
-        #btnContainer{
+
+        #btnContainer {
             text-align: center;
         }
-        .id-input{
+
+        .id-input {
             background-color: transparent;
             outline: none;
             border: none;
@@ -70,7 +79,7 @@
     </div>
     <div id="btnContainer"></div>
     <script>
-    
+
         let no = document.getElementById("rno")
         let sharing = document.getElementById("rsha")
 
@@ -92,13 +101,13 @@
             return response.json();
 
         }
-        async function   getviewdetails(url = "") {
+        async function getviewdetails(url = "") {
             const res = await fetch(url, {
                 method: "GET",
             })
             return res.json();
         }
-        
+
         async function deleteroom(url = "", data = {}) {
             console.log(data);
             const response = await fetch(url, {
@@ -108,15 +117,15 @@
                 },
                 body: new URLSearchParams(data).toString()
             })
-        
+
             return response.json();
-             
+
         }
-        async function getiddetails(url=" "){
+        async function getiddetails(url = " ") {
             const response = await fetch(url, {
                 method: "GET",
             })
-            return response.json(); 
+            return response.json();
         }
         async function editmethod(url = "", data = {}) {
             console.log(data);
@@ -127,9 +136,9 @@
                 },
                 body: new URLSearchParams(data).toString()
             })
-        
+
             return response.json();
-             
+
         }
         document.getElementById('addbtn').addEventListener('click', function () {
             addroompost('/newroom', { r_no: no.value, r_sharing: sharing.value }).then((response) => {
@@ -146,12 +155,12 @@
             window.location.href = '/home';
         })
 
-        document.getElementById('viewbtn').addEventListener('click',function(){
-            let viewdetails=document.getElementById("rid")
-            let mainContainerEl=document.getElementById("main-div")
-            getviewdetails("/oneviewdetails/"+viewdetails.value).then((response)=>{
-                if(response.status=='success'){
-                    viewdetails.value=""
+        document.getElementById('viewbtn').addEventListener('click', function () {
+            let viewdetails = document.getElementById("rid")
+            let mainContainerEl = document.getElementById("main-div")
+            getviewdetails("/oneviewdetails/" + viewdetails.value).then((response) => {
+                if (response.status == 'success') {
+                    viewdetails.value = ""
                     console.log(response)
                     let tableTag = document.createElement("table")
                     let ColumnNameEl = document.createElement("tr")
@@ -172,7 +181,7 @@
 
                     let detailsEl = document.createElement("tr")
 
-                  
+
 
                     let idEl = document.createElement("td")
                     idEl.textContent = response.data.r_id
@@ -188,109 +197,110 @@
                     detailsEl.appendChild(sharingEl)
                     mainContainerEl.appendChild(tableTag)
 
-                    
-                    
-                }else{
+
+
+                } else {
                     alert(response.message);
                 }
             })
         })
-        document.getElementById('deletebtn').addEventListener('click',function(){
-            if(confirm("are you sure to delete")==true){
-                let deleteid=document.getElementById('rdid').value
-              deleteroom("/delete/roomdetails",{"id":deleteid}).then((response)=>{
-                if(response.status=='success'){
-                    alert("id deleted successfully")
-                    window.location.href='/room';
-                    document.getElementById('deletebtn').value
-                }else{
-                    alert(response.message)
-                }
-              }) 
-            }else{
+        document.getElementById('deletebtn').addEventListener('click', function () {
+            if (confirm("are you sure to delete") == true) {
+                let deleteid = document.getElementById('rdid').value
+                deleteroom("/delete/roomdetails", { "id": deleteid }).then((response) => {
+                    if (response.status == 'success') {
+                        alert("id deleted successfully")
+                        window.location.href = '/room';
+                        document.getElementById('deletebtn').value
+                    } else {
+                        alert(response.message)
+                    }
+                })
+            } else {
                 alert("id is not deleted")
             }
         })
-        let clicked=false
-        document.getElementById('okbtn4').addEventListener('click',function(){
-            let getid=document.getElementById("reid")
-            let mainContainerEl=document.getElementById("main-div")
+        let clicked = false
+        document.getElementById('okbtn4').addEventListener('click', function () {
+            let getid = document.getElementById("reid")
+            let mainContainerEl = document.getElementById("main-div")
             console.log(getid)
-        getiddetails("/getedit/details/"+getid.value).then((response)=>{
-            
-            if(response.status=='success'){
-                console.log(response)
-                let tableT=document.createElement("table")
-                let columnName=document.createElement("tr")
+            getiddetails("/getedit/details/" + getid.value).then((response) => {
 
-                let columnh1=document.createElement("th")
-                columnh1.textContent="Room_id"
-                columnName.appendChild(columnh1)
-
-                let columnh2=document.createElement("th")
-                columnh2.textContent="Room no"
-                columnName.appendChild(columnh2)
-
-                let columnh3=document.createElement("th")
-                columnh3.textContent="Room_sharing"
-                columnName.appendChild(columnh3)
-
-                tableT.appendChild(columnName)
-
-                let detailsE = document.createElement("tr")
-
-                let idE=document.createElement("td")
-                let idinputEl=document.createElement("input")
-                
-                idinputEl.value=response.data.r_id
-                idinputEl.classList.add("id-input")
-                idE.appendChild(idinputEl)
-                detailsE.appendChild(idE)
-
-                let roomnoE=document.createElement("td")
-                let noinputEl=document.createElement("input")
-                noinputEl.value=response.data.r_no
-                noinputEl.classList.add("id-input")
-                roomnoE.appendChild(noinputEl)
-                detailsE.appendChild(roomnoE)
-
-                let sharingE=document.createElement("td")
-                let sharinginputEl=document.createElement("input")
-                sharinginputEl.value=response.data.r_sharing
-                sharinginputEl.classList.add("id-input")
-                sharingE.appendChild(sharinginputEl)
-                tableT.appendChild(detailsE)
-                detailsE.appendChild(sharingE)
-                mainContainerEl.appendChild(tableT)
-
-                let btnContainerEl=document.getElementById("btnContainer")
-                let postbtn=document.createElement("button")
-                
-               if (clicked==false){
-                postbtn.textContent="Update"
-                btnContainerEl.appendChild(postbtn)
-                clicked=true
-               }
-
-            
-            postbtn.addEventListener('click',function(){
-                console.log("update btn clicked")
-                editmethod("/edit/tenent/details",{r_id:parseInt(idinputEl.value),r_no:parseInt(noinputEl.value),r_sharing:parseInt(sharinginputEl.value)}).then((response)=>{
+                if (response.status == 'success') {
                     console.log(response)
-                    if(response.status=='success'){
-                        alert("updated successfully")
+                    let tableT = document.createElement("table")
+                    let columnName = document.createElement("tr")
+
+                    let columnh1 = document.createElement("th")
+                    columnh1.textContent = "Room_id"
+                    columnName.appendChild(columnh1)
+
+                    let columnh2 = document.createElement("th")
+                    columnh2.textContent = "Room no"
+                    columnName.appendChild(columnh2)
+
+                    let columnh3 = document.createElement("th")
+                    columnh3.textContent = "Room_sharing"
+                    columnName.appendChild(columnh3)
+
+                    tableT.appendChild(columnName)
+
+                    let detailsE = document.createElement("tr")
+
+                    let idE = document.createElement("td")
+                    let idinputEl = document.createElement("input")
+
+                    idinputEl.value = response.data.r_id
+                    idinputEl.classList.add("id-input")
+                    idE.appendChild(idinputEl)
+                    detailsE.appendChild(idE)
+
+                    let roomnoE = document.createElement("td")
+                    let noinputEl = document.createElement("input")
+                    noinputEl.value = response.data.r_no
+                    noinputEl.classList.add("id-input")
+                    roomnoE.appendChild(noinputEl)
+                    detailsE.appendChild(roomnoE)
+
+                    let sharingE = document.createElement("td")
+                    let sharinginputEl = document.createElement("input")
+                    sharinginputEl.value = response.data.r_sharing
+                    sharinginputEl.classList.add("id-input")
+                    sharingE.appendChild(sharinginputEl)
+                    tableT.appendChild(detailsE)
+                    detailsE.appendChild(sharingE)
+                    mainContainerEl.appendChild(tableT)
+
+                    let btnContainerEl = document.getElementById("btnContainer")
+                    let postbtn = document.createElement("button")
+
+                    if (clicked == false) {
+                        postbtn.textContent = "Update"
+                        btnContainerEl.appendChild(postbtn)
+                        clicked = true
                     }
 
-                })
+
+                    postbtn.addEventListener('click', function () {
+                        console.log("update btn clicked")
+                        editmethod("/edit/tenent/details", { r_id: parseInt(idinputEl.value), r_no: parseInt(noinputEl.value), r_sharing: parseInt(sharinginputEl.value) }).then((response) => {
+                            console.log(response)
+                            if (response.status == 'success') {
+                                alert("updated successfully")
+                                window.location.href='/room'
+                            }
+
+                        })
+                    })
+
+                } else {
+                    alert(response.message);
+                }
             })
 
-            }else{
-                alert(response.message);
-            }
         })
 
-        })
-        
     </script>
 
 </body>

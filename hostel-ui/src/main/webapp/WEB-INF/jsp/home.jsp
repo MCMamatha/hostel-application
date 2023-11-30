@@ -222,10 +222,10 @@
         })
         document.getElementById('viewBtn').addEventListener('click', function () {
             let viewInputEl = document.getElementById("viewInput")
-            
+
             getdetails("/onedetails/" + viewInputEl.value).then((response) => {
                 if (response.status == 'success') {
-                    viewInputEl.value=""
+                    viewInputEl.value = ""
                     let tableTag = document.createElement("table")
                     let ColumnNameEl = document.createElement("tr")
 
@@ -340,44 +340,44 @@
                 modal.style.display = "none";
             }
         }
-       
+
         let modelEl = document.getElementById("modal-content")
         let tableTagEl = document.getElementById("table")
-        function appendAllTenents(tenent){
+        function appendAllTenents(tenent) {
             console.log(tenent.t_profession
             )
-            let rowEl=document.createElement("tr")
+            let rowEl = document.createElement("tr")
 
-            tIdEl=document.createElement("td")
-            tIdEl.textContent=tenent.t_id
-            
-            tNameEl=document.createElement("td")
-            tNameEl.textContent=tenent.t_name
+            tIdEl = document.createElement("td")
+            tIdEl.textContent = tenent.t_id
 
-            tAddEl=document.createElement("td")
-            tAddEl.textContent=tenent.t_address
+            tNameEl = document.createElement("td")
+            tNameEl.textContent = tenent.t_name
 
-            tPhoneEl=document.createElement("td")
-            tPhoneEl.textContent=tenent.t_phone
+            tAddEl = document.createElement("td")
+            tAddEl.textContent = tenent.t_address
 
-            tJoiningDtEl=document.createElement("td")
-            tJoiningDtEl.textContent=tenent.date_of_joining
+            tPhoneEl = document.createElement("td")
+            tPhoneEl.textContent = tenent.t_phone
 
-            tRoomNoEl=document.createElement("td")
-            tRoomNoEl.textContent=tenent.room_no
+            tJoiningDtEl = document.createElement("td")
+            tJoiningDtEl.textContent = tenent.date_of_joining
 
-            tProfessionEl=document.createElement("td")
-            tProfessionEl.textContent=tenent.t_profession
+            tRoomNoEl = document.createElement("td")
+            tRoomNoEl.textContent = tenent.room_no
+
+            tProfessionEl = document.createElement("td")
+            tProfessionEl.textContent = tenent.t_profession
 
 
-            rowEl.append(tIdEl,tNameEl,tAddEl,tPhoneEl,tJoiningDtEl,tRoomNoEl,tProfessionEl)
+            rowEl.append(tIdEl, tNameEl, tAddEl, tPhoneEl, tJoiningDtEl, tRoomNoEl, tProfessionEl)
             tableTagEl.append(rowEl)
             modelEl.appendChild(tableTagEl)
         }
         document.getElementById('viewall').addEventListener('click', function () {
             getall("/viewall/tenent").then((response) => {
                 if (response.status == "success") {
-                    tableTagEl.innerHTML=""
+                    tableTagEl.innerHTML = ""
                     modal.style.display = "block";
                     let modelEl = document.getElementById("modal-content")
                     let headingEl = document.createElement("tr")

@@ -1,4 +1,4 @@
-    <%@page import="com.hostel.controller.HostelController" %>
+<%@page import="com.hostel.controller.HostelController" %>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -18,7 +18,7 @@
             <label for="address">ADDRESS:</label>
             <input type="text" id="address" placeholder=""><br>
             <label for="phone">PHONE:</label>
-            <input type="text" id="phone" placeholder="" ><br>
+            <input type="text" id="phone" placeholder=""><br>
             <label for="date_of_joining">DATE OF JOINING:</label>
             <input type="text" id="date_id" placeholder="" disabled><br>
             <label for="room_no">ROOM NO:</label>
@@ -50,10 +50,9 @@
                 return response.json();
             }
 
-            //let id;
+
             function updatedDetails(res) {
-                idEl.value= res.data.t_id
-                //id = res.data.t_id
+                idEl.value = res.data.t_id
                 nameEl.value = res.data.t_name
                 addressEl.value = res.data.t_address
                 phoneEl.value = res.data.t_phone
@@ -69,36 +68,36 @@
                 phoneEl = document.getElementById("phone");
                 roomEl = document.getElementById("roomno");
                 proffEl = document.getElementById("profession");
-               
 
 
-                postData('/edit/details/',{t_id:idEl.value,t_name:nameEl.value, t_address: addressEl.value, t_phone: phoneEl.value,room_no: roomEl.value, t_profession: proffEl.value}).then((response)=> {
-                    
+
+                postData('/edit/details/', { t_id: idEl.value, t_name: nameEl.value, t_address: addressEl.value, t_phone: phoneEl.value, room_no: roomEl.value, t_profession: proffEl.value }).then((response) => {
+
                     if (response.status == "success") {
                         alert("data posted successfully");
-                        window.location.href='/home';
+                        window.location.href = '/home';
                     } else {
                         alert(response.message);
                     }
                 })
 
-                
+
                 if (nameEl == null && addressEl == null && phoneEl == null && roomEl == null && proffEl == null) {
                     alert("No Changes Made")
 
                 } else if (nameEl == "" && addressEl == "" && phoneEl == "" && roomEl == "" && proffEl == "") {
                     alert("field must be filled out")
                 }
-               
+
             })
 
-            document.getElementById("back").addEventListener("click",function(){
-                window.location.href='/home';
+            document.getElementById("back").addEventListener("click", function () {
+                window.location.href = '/home';
             })
 
             console.log()
 
-            updatedDetails(<%=HostelController.getDetails()%>);
+            updatedDetails(<%=HostelController.getDetails() %>);
         </script>
 
 
