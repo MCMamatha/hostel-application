@@ -288,7 +288,7 @@
                             console.log(response)
                             if (response.status == 'success') {
                                 alert("updated successfully")
-                                window.location.href='/room'
+                                window.location.href='/rooms'
                             }
 
                         })
