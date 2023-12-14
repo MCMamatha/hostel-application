@@ -401,34 +401,23 @@ def getoneid(id):
     return json.dumps(res)
 
 
-@app.route('/')
-def index():
-    return render_template('image.jsp')
- 
-# @app.route('/upload',methods=['POST'])
-# def upload():
-#     # res= {
-#     #     'status' : 'success',
-#     #     'message': None,
-#     #     'data':None
-#     # }
-#     file=request.files['filename']
-     
-#     file.save(f'uploads/{file.filename}') 
-#     if not file:
-#         return 'no pic uploaded',400
-    
-#     filename=secure_filename(file.filename)
-#     mimetype=file.mimetype 
-#     img=image(img=file.read(),mimetype=mimetype,name=filename)
-#     get_db_connection.add(img)
-#     get_db_connection.commit()
-    
-#     return 'image has been uploaded',200
-
-#     return redirect('/')
-    
-              
+@app.route('/viewall/room/details',methods=['GET'])
+def view_all_rooms():
+    res={
+        'status':'success',
+        'message':None,
+        'data':None
+    }
+    try:
+        connection=get_db_connection()
+        res['data']=room.view_all_rooms(
+            connection=connection
+        )
+    except Exception as e:
+        res['status']='failure'
+        res['message']='unable to get room details'
+        
+    return json.dumps(res)                    
             
 file_config=yaml.load(open(os.path.join(root_path,"..","con","config.yml")))  
 ora_engine=create_engine(file_config['db_connection_string'],pool_size=50,isolation_level="READ COMMITTED",echo=True)   

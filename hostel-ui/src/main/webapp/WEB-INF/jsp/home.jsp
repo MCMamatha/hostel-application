@@ -68,7 +68,7 @@
             /* 15% from the top and centered */
             padding: 20px;
             border: 1px solid #888;
-            width: 90%;
+            width: 80%;
             /* Could be more or less, depending on screen size */
         }
 
@@ -94,6 +94,7 @@
         <div>
             <button id="aroom">Add Rooms</button>
             <button id="viewall">To view all the tenent details</button>
+            <button id="viewallrooms">To view all the Rooms</button>
             <div id="myModal" class="modal">
                 <div class="modal-content" id="modal-content">
                     <span class="close">&times;</span>
@@ -226,6 +227,7 @@
             getdetails("/onedetails/" + viewInputEl.value).then((response) => {
                 if (response.status == 'success') {
                     viewInputEl.value = ""
+
                     let tableTag = document.createElement("table")
                     let ColumnNameEl = document.createElement("tr")
 
@@ -316,6 +318,12 @@
             })
             return ress.json();
         }
+        async function getAllRoomDetails(url = "") {
+            const ress = await fetch(url, {
+                method: "GET",
+            })
+            return ress.json();
+        }
 
         document.getElementById('okbtn').addEventListener('click', function () {
             let idvalue = document.getElementById('upload')
@@ -344,8 +352,8 @@
         let modelEl = document.getElementById("modal-content")
         let tableTagEl = document.getElementById("table")
         function appendAllTenents(tenent) {
-            console.log(tenent.t_profession
-            )
+            console.log(tenent.t_profession)
+           
             let rowEl = document.createElement("tr")
 
             tIdEl = document.createElement("td")
@@ -374,15 +382,17 @@
             tableTagEl.append(rowEl)
             modelEl.appendChild(tableTagEl)
         }
+        
         document.getElementById('viewall').addEventListener('click', function () {
             getall("/viewall/tenent").then((response) => {
+                console.log(response.status)
+                let tableTagEl=document.getElementById("table")
                 if (response.status == "success") {
+                    console.log("hi")
                     tableTagEl.innerHTML = ""
-                    modal.style.display = "block";
-                    let modelEl = document.getElementById("modal-content")
                     let headingEl = document.createElement("tr")
+                    modal.style.display = "block";  
                     let listOfHeadings = ["ID", "NAME", "ADDRESS", "PHONE", "DATE_OF_JOINING", "ROOM_NO", "PROFESSION"]
-
                     for (let heading of listOfHeadings) {
                         let hdTag = document.createElement("th")
                         hdTag.textContent = heading
@@ -397,6 +407,45 @@
                 }
             })
 
+        })
+
+        function appendAllRooms(room){
+             let rowEle=document.createElement("tr")
+
+             rIdEl=document.createElement("td")
+             rIdEl.textContent=room.r_id
+
+             rNoEl=document.createElement("td")
+             rNoEl.textContent=room.r_no
+
+             rSharingEl=document.createElement("td")
+             rSharingEl.textContent=room.r_sharing
+              
+             rowEle.append(rIdEl,rNoEl,rSharingEl)
+             tableTagEl.append(rowEle)
+             modelEl.appendChild(tableTagEl)
+        }
+
+        document.getElementById('viewallrooms').addEventListener('click',function(){
+            getAllRoomDetails("/get/all/rooms").then((response)=>{
+                if(response.status=="success"){
+                   tableTagEl.innerHTML=""
+                   modal.style.display="block";
+                   let headingEl = document.createElement("tr")
+                   let listOfTableHeadings=["ID","NO","SHARING"]
+                   
+                   for(let headings of listOfTableHeadings){
+                    let hdTagE=document.createElement("th")
+                    hdTagE.textContent=headings
+                    headingEl.appendChild(hdTagE)
+                   }
+                   tableTagEl.appendChild(headingEl)
+                   modelEl.appendChild(tableTagEl)
+                   for(let room of response.data){
+                   appendAllRooms(room)
+                   }
+                  }
+            })
         })
 
     </script>

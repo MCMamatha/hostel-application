@@ -53,3 +53,14 @@ def update_details(connection,r_id,r_no,r_sharing):
         
     return "unable to add"
 
+def view_all_rooms(connection):
+    obj=connection.query(room.Room.r_id,room.Room.r_no,room.Room.r_sharing).all()
+    
+    data=[]
+    for i in obj:
+                data.append({
+                    'r_id':i.r_id,
+                    'r_no':i.r_no,
+                    'r_sharing':i.r_sharing
+                })
+    return data    

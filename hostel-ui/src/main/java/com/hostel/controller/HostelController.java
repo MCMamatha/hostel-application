@@ -196,7 +196,7 @@ public class HostelController {
             LOGGER.error("get", ex);
             JSONObject response = new JSONObject();
             response.put("status", "failure");
-            response.put("message", "Unable to post the data");
+            response.put("message", "Unable to get the data");
             response.put("data", JSONObject.NULL);
 
             return response.toString();
@@ -339,7 +339,22 @@ public class HostelController {
         System.out.println(getone);
         return getone;
     }
-    // @PostMapping(value="/uploads")
-    // public static String uploadimage(@PathVariable(""))
+    
+    @GetMapping(value ="/get/all/rooms")
+    public String getallroomdetails(HttpSession session) throws JsonProcessingException{
+        try{
+           Map<String ,Object> params=new HashMap<String ,Object>();
+           String getall=restUtil.get("http://localhost:5000/viewall/room/details",params);
+           return getall.toString();
+        }catch (Exception ex){
+           LOGGER.error("getall",ex);
+           JSONObject response=new JSONObject();
+           response.put("status","failure");
+           response.put("message","unable to get the details");
+           response.put("data",JSONObject.NULL);
+
+           return response.toString();
+        }
+    }    
 
 }

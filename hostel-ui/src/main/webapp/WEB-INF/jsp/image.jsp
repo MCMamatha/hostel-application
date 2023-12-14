@@ -13,10 +13,14 @@
     <p>name:<span id="t_name"></span></p>
     </div>
     <div>
-    <form action="static/images" method="post" enctype="multipart/form-data">
+    <!-- <form action="static/images" method="post" enctype="multipart/form-data"> -->
     <input type="file" id="fileid" name="filename">
     <input type="submit" id="submitbtn" value="Upload">
-    </form>
+    <!-- </form> -->
+
+    <input type="number" id="qty">
+    <input type="number" id="price">
+    <input type="number" id="total">
     </div>
 </div>
     <script type="text/javascript">
@@ -34,9 +38,19 @@
             let fileEl=document.getElementById("fileid")
             
         })
-    
+        document.getElementById("qty").addEventListener("keyup",function(event){
+            let priceEL=document.getElementById("total")
+            priceEL.value=event.target.value
+        })
 
-        populateTenentDetails(<%=HostelController.getTenentDetails()%>);
+        document.getElementById("price").addEventListener("keyup",function(event){
+            let qtyEl=document.getElementById("qty")
+            let qty=qtyEl.value
+            let totalEL=document.getElementById("total")
+            totalEL.value=qty*event.target.value
+        })
+     
+        populateTenentDetails(<%=HostelController.getTenentDetails()%>);   
     </script>
 </body>
 </html>
